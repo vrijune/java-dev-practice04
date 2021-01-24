@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import ictgradschool.industry.q2.portfolio.StockPortfolio;
+import ictgradschool.industry.q2.portfolio.StockPortfolioAdapter;
 
 
 /**
@@ -48,6 +49,13 @@ public class StockPortfolioTrackingApp extends JPanel {
 		sharePriceLog.setEditable(false);
 		
 		// YOUR CODE STARTS HERE
+
+		StockPortfolioAdapter tablemodel = new StockPortfolioAdapter()
+
+
+		JTable tableview = new JTable(tablemodel);
+
+
 		//
 		// YOUR CODE ENDS HERE
 		

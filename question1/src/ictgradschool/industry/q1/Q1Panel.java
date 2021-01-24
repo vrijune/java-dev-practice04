@@ -11,26 +11,67 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Q1Panel extends JPanel {
+public class Q1Panel extends JPanel implements KeyListener, ActionListener, MouseListener {
 
     private Van mrWhippy;
-    
+    private Timer timer;
+
+
     public Q1Panel() {
-        
-        mrWhippy = new Van(40,40, "Mr Whippy");  // Construct the Van
-        
-    }
-    
-    public void actionPerformed(ActionEvent e) {
-    	
-    }
-    
-    public void mousePressed(MouseEvent e) {
+        mrWhippy = new Van(40, 40, "Mr Whippy");  // Construct the Van
+        addKeyListener(this);
+        this.timer = new Timer(30, this);
+
+        addMouseListener(this);
+
 
     }
-    
+
+    public void actionPerformed(ActionEvent e) {
+        mrWhippy.move();
+        requestFocusInWindow();
+        repaint();
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if (!timer.isRunning())
+            timer.start();
+//        if (e.getClickCount() == 1) {
+//            mrWhippy.move();
+//        } else if (e.getClickCount() / 2 == 1) {
+//            mrWhippy.move();
+//        } else
+//            try {
+//                mrWhippy.wait(200000);
+//            } catch (InterruptedException interruptedException) {
+//                interruptedException.printStackTrace();
+//            }
+
+
+    }
+
+
     public void keyPressed(KeyEvent e) {
-        
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                mrWhippy.setDirection(Van.LEFT);
+                break;
+            case KeyEvent.VK_RIGHT:
+                mrWhippy.setDirection(Van.RIGHT);
+                break;
+            case KeyEvent.VK_C:
+                mrWhippy.changeColour();
+            case KeyEvent.VK_S:
+                timer.stop();
+            case KeyEvent.VK_UP:
+                mrWhippy.speedUp();
+            case KeyEvent.VK_DOWN:
+                mrWhippy.slowDown();
+        }
+
+
     }
     
     public void paintComponent(Graphics g) {

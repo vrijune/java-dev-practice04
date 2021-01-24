@@ -61,7 +61,10 @@ public class StockPortfolio {
 		}
 		return totalValue;
 	}
-	
+
+
+
+
 	public int getNumberOfStocks() {
 		return _portfolioIndex.size();
 	}

@@ -49,20 +49,39 @@ public class Van {
     public void slowDown() {
         // Decrease the speed by 2 pixels.
         // Do not let the speed go below 2 (set it back to 2 if it does)
+
+        if (direction == RIGHT) {
+            x = x + speed - 2;
+        }
+        if (direction == LEFT) {
+            x = x - speed + 2;
+            if (speed <= 2){
+                speed = 2;
+            }
+        }
     }
-    
+
     public void speedUp() {
         // Increase the speed by 2 pixels.
+        if (direction == RIGHT) {
+            x = x + speed + 2;
+        }
+        if (direction == LEFT) {
+            x = x - speed - 2;
+        }
     }
-    
+
     public void move() {
         // Move the van in the current direction
         if (direction == RIGHT) {
             x = x + speed;
         }
         // Add the code to move to the left
+        if (direction == LEFT) {
+            x = x - speed;
+        }
     }
-    
+
     // Draw the van
     public void draw(Graphics g) {
         g.fillOval(x + 3 * size, y + 55 * size / 8, 2 * size, 2 * size);
