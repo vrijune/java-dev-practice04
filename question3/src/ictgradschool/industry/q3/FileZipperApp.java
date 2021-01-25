@@ -11,13 +11,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 /**
  * Swing program that allows users to zip a directory full of files. The Zip file will be created in the
@@ -30,7 +24,84 @@ public class FileZipperApp extends JPanel {
     private JTextArea outputLog;      // Component to display in-progress messages.
 
     private List<File> filesInDirectory;      // List of image files for which thumbnails should be generated.
-    private File outputDirectory;      // Output directory for storing thumbnails.
+    private FileZipperSwing worker;     // Output directory for storing thumbnails.
+
+    private class FileZipperSwing extends SwingWorker<List<File>,File>{
+        private File zipFile;
+        public FileZipperSwing(File _zipFile){
+            zipFile = _zipFile;
+        }
+
+        @Override
+        protected void process(List<File> files) {
+            for (int i = 0; i < files.size(); i++) {
+
+                File file = files.get(i);
+                outputLog.append(file+"\n");
+            }
+        }
+
+
+
+        @Override
+        protected List<File> doInBackground() throws Exception {
+            // TODO Move this code to various methods within a SwingWorker, as appropriate.
+            // **************************************************************************************
+            // Open the zip file for writing
+            try (FileOutputStream fos = new FileOutputStream(zipFile)) {
+
+                // Prepare the file to be written as a Zip file
+                try (ZipOutputStream zipStream = new ZipOutputStream(fos)) {
+
+                    // Add all files in the selected folder to the Zip file.
+                    for (File file : filesInDirectory) {
+                        try {
+                            addFileToZipStream(file, zipStream);
+
+                            // Report progress
+                            outputLog.append("Added " + file.getName() + "\n");
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+
+                // Report completion to user
+                outputLog.append("All files written to " + zipFile.getName() + " successfully!\n");
+
+            } catch (IOException e) {
+                // Report error to the user
+                outputLog.append("Error: " + e.getMessage() + "\n");
+            }
+            return filesInDirectory;
+        }
+
+            @Override
+            protected void done() {
+
+            // Set enabled state for buttons and restore cursor.
+            startBtn.setEnabled(true);
+            cancelBtn.setEnabled(false);
+            setCursor(Cursor.getDefaultCursor());
+         // *******************
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public FileZipperApp() {
 
@@ -78,42 +149,7 @@ public class FileZipperApp extends JPanel {
                     // Set cursor to busy.
                     setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                    // TODO Move this code to various methods within a SwingWorker, as appropriate.
-                    // **************************************************************************************
-                    // Open the zip file for writing
-                    try (FileOutputStream fos = new FileOutputStream(zipFile)) {
-
-                        // Prepare the file to be written as a Zip file
-                        try (ZipOutputStream zipStream = new ZipOutputStream(fos)) {
-
-                            // Add all files in the selected folder to the Zip file.
-                            for (File file : filesInDirectory) {
-                                try {
-                                    addFileToZipStream(file, zipStream);
-
-                                    // Report progress
-                                    outputLog.append("Added " + file.getName() + "\n");
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                        }
-
-                        // Report completion to user
-                        outputLog.append("All files written to " + zipFile.getName() + " successfully!\n");
-
-                    } catch (IOException e) {
-                        // Report error to the user
-                        outputLog.append("Error: " + e.getMessage() + "\n");
-                    }
-
-                    // Set enabled state for buttons and restore cursor.
-                    startBtn.setEnabled(true);
-                    cancelBtn.setEnabled(false);
-                    setCursor(Cursor.getDefaultCursor());
-                    // **************************************************************************************
+                  // *******************************************************************
                 }
             }
         });
@@ -121,8 +157,31 @@ public class FileZipperApp extends JPanel {
         // Register a handler for Cancel button clicks.
         cancelBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // If a SwingWorker were used, we could cancel it.
+                try{
+//                actionEvent.setSource(false);
+                    worker.cancel(false);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                // Disable the Start button until the result of the calculation is known.
+                startBtn.setEnabled(true);
+
+                cancelBtn.setEnabled(false);
+                // Clear any text (prime factors) from the results area.
+                outputLog.setText(null);
+
+                // Set the cursor to busy.
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+
+
+
             }
+
+                // If a SwingWorker were used, we could cancel it.
+
         });
 
         // Construct the GUI.
@@ -157,6 +216,8 @@ public class FileZipperApp extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+
 
     /**
      * ZIPs a single file
