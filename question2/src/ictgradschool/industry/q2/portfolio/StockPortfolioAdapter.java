@@ -2,19 +2,16 @@ package ictgradschool.industry.q2.portfolio;
 
 import javax.swing.table.AbstractTableModel;
 
-public class StockPortfolioAdapter extends AbstractTableModel implements StockPortfolioListener {
+public class StockPortfolioAdapter extends AbstractTableModel{
 
-    private static String[] columnNames = {"Company Name", "Numbers of shares", "Buy prices","Current value"};
+    private String[] columnNames = {"Company Name", "Numbers of shares", "Buy prices", "Current value"};
 
 
     private StockPortfolio stockPortfolio;
+
     public StockPortfolioAdapter(StockPortfolio stockPortfolio) {
-        this.stockPortfolio=stockPortfolio;
+        this.stockPortfolio = stockPortfolio;
     }
-
-
-
-
 
 
     @Override
@@ -29,39 +26,37 @@ public class StockPortfolioAdapter extends AbstractTableModel implements StockPo
 
     @Override
     public Object getValueAt(int row, int column) {
-        StockPortfolio result = stockPortfolio;
+        Stock result = stockPortfolio.getStockAt(row);
         Object value = null;
         switch (column) {
             case 0:
-                value = result.;
+                value = result.getCompany();
                 break;
             case 1:
-                value = result._studentSurname;
+                value = result.getNumberOfShares();
                 break;
             case 2:
-                value = result._studentForename;
+                value = result.getBoughtPrice();
                 break;
             case 3:
-                value = result.getAssessmentElement(StudentResult.AssessmentElement.Exam);
+                value = result.getCurrentValue();
                 break;
-            case 4:
-                value = result.getAssessmentElement(StudentResult.AssessmentElement.Test);
-                break;
-            case 5:
-                value = result.getAssessmentElement(StudentResult.AssessmentElement.Assignment);
-                break;
-            case 6:
-                value = result.getAssessmentElement(StudentResult.AssessmentElement.Overall);
-                break;
+
         }
         return value;
 
     }
 
     @Override
-    public void update(Stock stock) {
-        this.stockPortfolio = stockPortfolio;
-
-
+    public String getColumnName(int column) {
+        String name = null;
+        for (int i = 0; i < columnNames.length ; i++) {
+            if (i == column){
+                name = columnNames[i];
+            }
+        }
+        return name;
     }
+
+
 }

@@ -73,7 +73,7 @@ public class StockPortfolio {
 		return _portfolioIndex.get(index);
 	}
 	
-	public int getIndexFor(Stock stock) {
+	public int getIndexFor(int stock) {
 		return _portfolioIndex.indexOf(stock);
 	}
 	

@@ -57,18 +57,27 @@ public class Q1Panel extends JPanel implements KeyListener, ActionListener, Mous
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
                 mrWhippy.setDirection(Van.LEFT);
+                timer.start();
                 break;
             case KeyEvent.VK_RIGHT:
                 mrWhippy.setDirection(Van.RIGHT);
+                timer.start();
                 break;
             case KeyEvent.VK_C:
                 mrWhippy.changeColour();
+                timer.start();
+                break;
             case KeyEvent.VK_S:
                 timer.stop();
+                break;
             case KeyEvent.VK_UP:
                 mrWhippy.speedUp();
+                timer.start();
+                break;
             case KeyEvent.VK_DOWN:
                 mrWhippy.slowDown();
+                timer.start();
+                break;
         }
 
 
