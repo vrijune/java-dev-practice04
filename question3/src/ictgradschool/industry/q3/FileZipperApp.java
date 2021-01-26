@@ -26,21 +26,22 @@ public class FileZipperApp extends JPanel {
     private List<File> filesInDirectory;      // List of image files for which thumbnails should be generated.
     private FileZipperSwing worker;     // Output directory for storing thumbnails.
 
-    private class FileZipperSwing extends SwingWorker<List<File>,File>{
+    private class FileZipperSwing extends SwingWorker<List<File>, File> {
         private File zipFile;
-        public FileZipperSwing(File _zipFile){
+
+        public FileZipperSwing(File _zipFile) {
             zipFile = _zipFile;
         }
+
 
         @Override
         protected void process(List<File> files) {
             for (int i = 0; i < files.size(); i++) {
 
                 File file = files.get(i);
-                outputLog.append(file+"\n");
+                outputLog.append(file + "\n");
             }
         }
-
 
 
         @Override
@@ -78,29 +79,23 @@ public class FileZipperApp extends JPanel {
             return filesInDirectory;
         }
 
-            @Override
-            protected void done() {
+        @Override
+        protected void done() {
+
+
+            if(isCancelled()){
+                outputLog.append("Processing aborted. \n");
+            }else {
+
+            }
 
             // Set enabled state for buttons and restore cursor.
             startBtn.setEnabled(true);
             cancelBtn.setEnabled(false);
             setCursor(Cursor.getDefaultCursor());
-         // *******************
+            // *******************
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public FileZipperApp() {
@@ -149,7 +144,7 @@ public class FileZipperApp extends JPanel {
                     // Set cursor to busy.
                     setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-                  // *******************************************************************
+                    // *******************************************************************
                 }
             }
         });
@@ -157,7 +152,7 @@ public class FileZipperApp extends JPanel {
         // Register a handler for Cancel button clicks.
         cancelBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try{
+                try {
 //                actionEvent.setSource(false);
                     worker.cancel(false);
 
@@ -176,11 +171,9 @@ public class FileZipperApp extends JPanel {
                 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 
-
-
             }
 
-                // If a SwingWorker were used, we could cancel it.
+            // If a SwingWorker were used, we could cancel it.
 
         });
 
@@ -216,7 +209,6 @@ public class FileZipperApp extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
 
 
     /**

@@ -55,6 +55,10 @@ public class StockPortfolioTrackingApp extends JPanel  {
         StockPortfolioAdapter tableModel = new StockPortfolioAdapter(portfolio);
         JTable tableView = new JTable(tableModel);
 
+//         tableView.setModel(tableModel);
+//         portfolio.addStockPortfolioListener(tableModel);
+
+
 		portfolio.addStockPortfolioListener(new StockPortfolioListener() {
 			@Override
 			public void update(Stock stock) {

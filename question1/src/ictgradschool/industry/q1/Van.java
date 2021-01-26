@@ -50,16 +50,7 @@ public class Van {
         // Decrease the speed by 2 pixels.
         // Do not let the speed go below 2 (set it back to 2 if it does)
 
-//        if (direction == RIGHT) {
-//            x = x + speed - 2;
-//        }
-//        if (direction == LEFT) {
-//            x = x - speed + 2;
-//            if (speed <= 2){
-//                speed = 2;
-//            }
-//        }
-//
+
         if (speed <= 2) {
             speed = 2;
         } else {
@@ -70,12 +61,7 @@ public class Van {
 
     public void speedUp() {
         // Increase the speed by 2 pixels.
-//        if (direction == RIGHT) {
-//            x = x + speed + 2;
-//        }
-//        if (direction == LEFT) {
-//            x = x - speed - 2;
-//        }
+
 
         speed = speed + 2;
 

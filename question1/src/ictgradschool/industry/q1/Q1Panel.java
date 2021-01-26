@@ -37,16 +37,7 @@ public class Q1Panel extends JPanel implements KeyListener, ActionListener, Mous
     public void mousePressed(MouseEvent e) {
         if (!timer.isRunning())
             timer.start();
-//        if (e.getClickCount() == 1) {
-//            mrWhippy.move();
-//        } else if (e.getClickCount() / 2 == 1) {
-//            mrWhippy.move();
-//        } else
-//            try {
-//                mrWhippy.wait(200000);
-//            } catch (InterruptedException interruptedException) {
-//                interruptedException.printStackTrace();
-//            }
+
 
 
     }

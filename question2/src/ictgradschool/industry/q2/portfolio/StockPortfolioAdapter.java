@@ -8,6 +8,7 @@ public class StockPortfolioAdapter extends AbstractTableModel{
 
 
     private StockPortfolio stockPortfolio;
+//private StockPortfolio _adaptee;
 
     public StockPortfolioAdapter(StockPortfolio stockPortfolio) {
         this.stockPortfolio = stockPortfolio;
@@ -58,5 +59,11 @@ public class StockPortfolioAdapter extends AbstractTableModel{
         return name;
     }
 
+
+
+//    public void update(Stock stock){
+//        int rowIndex = _adapetee.getIndexFor(stock);
+//        fireTableRowsUpdated(rowIndex,rowIndex);
+//    }
 
 }
